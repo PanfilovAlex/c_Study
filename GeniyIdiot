@@ -69,12 +69,7 @@ namespace GeniyIdiot
             Console.OutputEncoding = Encoding.UTF8;
             int numberOfQuestions = 5;
             int numberOfDiagnoses = 6;
-            Console.WriteLine("Введите вашу фамилию: ");
-            string firstName = Console.ReadLine();
-            Console.WriteLine("Введите ваше имя: ");
-            string secondName = Console.ReadLine();
-            Console.WriteLine("Введите ваше отчество: ");
-            string thirdName = Console.ReadLine();
+            
             string[] questions = GetArrayOfQuestions(numberOfQuestions);
 
             int[] answers = GetArrayOfAnswers(numberOfQuestions);
