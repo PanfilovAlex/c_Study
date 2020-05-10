@@ -18,6 +18,18 @@ namespace GeniyIdiot
             Console.InputEncoding = Encoding.Unicode;
             int numberOfQuestions = 5;
             int numberOfDiagnoses = 6;
+            string path = $"{Environment.CurrentDirectory}\\ResultsOfTests.txt";
+            string head = string.Format("{0, -20} {1, -18} {2, 10}", "ФИО:", "Количество правильных ответов:", "Ваш диагноз:" );
+            FileStream fileResults;
+            StreamWriter resultsOfTests;
+            if (!File.Exists(path))
+            {
+                fileResults = new FileStream(path, FileMode.OpenOrCreate);
+                resultsOfTests = new StreamWriter(fileResults, Encoding.UTF8);
+                resultsOfTests.WriteLine(head);
+                resultsOfTests.Dispose();
+                fileResults.Close();
+            }
             Console.WriteLine("Введите вашу фамилию: ");
             string firstName = Console.ReadLine();
             Console.WriteLine("Введите ваше имя: ");
@@ -39,22 +51,42 @@ namespace GeniyIdiot
                     countRigthAnswers++;
             }
 
-            string diagnose = GetDiagnose(numberOfDiagnoses, GetRateOfSuccessQuestions(countRigthAnswers, numberOfQuestions, numberOfDiagnoses));
+            string diagnose = GetDiagnose(numberOfDiagnoses, GetNumberOfDiagnose(countRigthAnswers, numberOfQuestions, numberOfDiagnoses));
             string fio = $"{firstName} {secondName[0]}. {thirdName[0]}.";
             Console.WriteLine($"Количество правильных ответов: {countRigthAnswers}.");
-            Console.Write($"{fio},{Environment.NewLine}Ваш диагноз: {diagnose}");
+            Console.Write($"{fio},{Environment.NewLine}Ваш диагноз: {diagnose}{Environment.NewLine}");
 
-            string fileInput = GetTextResult(countRigthAnswers, fio, diagnose);
+            string fileInput = string.Format("{0, -20} {1,-18} {2, 17}", fio, countRigthAnswers, diagnose);
+
             try
             {
-                StreamWriter resultsOfTest = new StreamWriter($"{Environment.CurrentDirectory}/ResultsOfTest.txt", true, Encoding.UTF8);
-                resultsOfTest.WriteLine(fileInput);
-                resultsOfTest.Close();
+                using (FileStream fileStream = new FileStream(path, FileMode.Append))
+                {
+                    using (StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.UTF8))
+                    {
+                        streamWriter.WriteLine(fileInput);
+                    }
+                }
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception: " + e.Message);
+                Console.WriteLine(e.Message);
             }
+
+
+            try
+            {
+                using (StreamReader readerResultsOfTests = new StreamReader(path))
+                {
+                    Console.WriteLine(readerResultsOfTests.ReadToEnd());
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+
         }
 
         static string[] GetQuestions(int numberOfQuestions)
@@ -135,25 +167,16 @@ namespace GeniyIdiot
             } while (parsingSuccess == false);
             return userAnswer;
         }
-        static string GetTextResult(int countRigthAnswers, string fio, string diagnose)
-        {
-            string[] fileResut = new string[3];
-            fileResut[0] = $"{fio}; ";
-            fileResut[1] = $"Количество Ваших правильных ответов: {countRigthAnswers}; ";
-            fileResut[2] = $"Ваш диагноз: {diagnose}.";
-            return fileResut[0] + fileResut[1] + fileResut[2];
-        }
-
-
+      
         /*В данном случае решил установить диапазон правильных ответов для каждого диагноза. 
          Если правильный ответ попадает в этот диапазон, то возвращаем номер "диагноза - 1"*/
-        static int GetRateOfSuccessQuestions(int countRigthAnswers, int numberOfQuetions, int numberOfDiagnoses)
+        static int GetNumberOfDiagnose(int countRigthAnswers, int numberOfQuetions, int numberOfDiagnoses)
         {
             int result = 0;
             if (countRigthAnswers == 0)
                 return 0;
-            else 
-                {
+            else
+            {
                 double rate = (double)numberOfQuetions / numberOfDiagnoses;
                 for (int i = numberOfDiagnoses; i > 0; i--)
                 {
