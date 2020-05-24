@@ -10,16 +10,17 @@ namespace GeniyIdiot
     class Diagnose
     {
         private string diagnose;
-        static public int id;
         public Diagnose(string diagnose)
         {
             this.diagnose = diagnose;
-            id++;
         }
 
-        public string ShowDiagnose()
+        public string ShowDiagnose 
         {
-            return diagnose;
+            get
+            {
+                return diagnose;
+            }
         }
 
         

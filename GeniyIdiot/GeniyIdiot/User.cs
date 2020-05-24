@@ -30,21 +30,7 @@ namespace GeniyIdiot
             }
         }
 
-        public void InputFirstName()
-        {
-            Console.WriteLine($"Введите Ваше имя:");
-            firstName = Console.ReadLine();
-        }
-        public void InputSecondName()
-        {
-            Console.WriteLine($"Введите Ваше отчество:");
-            secondName = Console.ReadLine();
-        }
-        public void InputLastName()
-        {
-            Console.WriteLine($"Введите Вашу фамилию:");
-            lastName = Console.ReadLine();
-        }
+        
         private string GetFirstLetter(string name)
         {
             string firstLetter;
@@ -53,30 +39,6 @@ namespace GeniyIdiot
             else
                 firstLetter = name[0] + ".";
             return firstLetter;
-        }
-
-        public int GetUserAnswer()
-        {
-            int userAnswer;
-            while (!int.TryParse(Console.ReadLine(), out userAnswer))
-            {
-                Console.WriteLine("Ошибка ввода! Повторите попытку: ");
-            }
-            return userAnswer;
-        }
-        public char GetUserAnswer(char symb)
-        {
-            var userAnswer = '\0';
-            while (userAnswer != 'y' && userAnswer != 'n')
-            {
-                while (!char.TryParse(Console.ReadLine(), out userAnswer))
-                {
-                    Console.WriteLine("Ошибка ввода! Повторите попытку: ");
-                }
-                if (userAnswer != 'y' && userAnswer != 'n')
-                    Console.WriteLine("Ошибка ввода! Повторите попытку: ");
-            }
-            return userAnswer;
         }
         public string Diagnose
         {
