@@ -16,18 +16,14 @@ namespace GeniyIdiot
             Console.OutputEncoding = Encoding.Unicode;
             Console.InputEncoding = Encoding.Unicode;
             var path = $"{Environment.CurrentDirectory}\\ResultsOfTests.txt";
-            var path1 = $"{Environment.CurrentDirectory}\\Questions.txt";
+            //var path1 = $"{Environment.CurrentDirectory}\\Questions.txt";
+            //var quest = new List<string>();
+            //string[] line = File.ReadAllLines(path1);
             
-            var quest = new List<string>();
-            string[] line = File.ReadAllLines(path1);
-            
-            foreach(var i in line)
-            {
-                Console.WriteLine(i);
-            }
-
-
-
+            //foreach(var i in line)
+            //{
+            //    Console.WriteLine(i);
+            //}
             if (!File.Exists(path))
                 CreateFileResultsOfTests(path);
             while (true)
