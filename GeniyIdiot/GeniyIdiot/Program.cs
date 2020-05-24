@@ -15,9 +15,8 @@ namespace GeniyIdiot
         {
             Console.OutputEncoding = Encoding.Unicode;
             Console.InputEncoding = Encoding.Unicode;
-            var path = $"{Environment.CurrentDirectory}\\ResultsOfTests.txt";
-            if (!File.Exists(path))
-                CreateFileResultsOfTests(path);
+            var fileResultsOfTest = new FileResults();
+            fileResultsOfTest.CreatinFileOfResults();
             while (true)
             {
                 var questionService = new QuestionService();
@@ -25,7 +24,7 @@ namespace GeniyIdiot
                 var numberOfQuestions = questions.Count;
                 var inputsProvider = new InputsProvider();
                 var user = inputsProvider.GetUserData();
-                
+
                 for (var i = 0; i < numberOfQuestions; i++)
                 {
                     Console.WriteLine($"Вопрос номер {i + 1}:" +
@@ -34,77 +33,25 @@ namespace GeniyIdiot
                         user.Result++;
                 }
                 var diagnose = new DiagnoseService();
-                
+
                 user.Diagnose = diagnose.GetDiagnose(user, numberOfQuestions);
                 Console.WriteLine($"Количество правильных ответов: {user.Result}.");
                 Console.Write($"{user.ReturnFIO},{Environment.NewLine}Ваш диагноз: " +
                     $"{user.Diagnose}{Environment.NewLine}");
-
-                var fileInput = string.Format("{0, -25} {1,-30} \t{2, -12}", user.ReturnFIO,
-                    user.Result, user.Diagnose);
-
-                WriteToFileResultsOfTests(path, fileInput);
-
+                fileResultsOfTest.WriteToFileOfResults(user);
                 Console.WriteLine("Вывести результаты предыдущих тестирований? y/n?");
-                var keySymd = '\0';
-                keySymd = inputsProvider.GetUserAnswer(keySymd);
-
-                ShowResultsOfTests(path, keySymd);
-
-                keySymd = '\0';
+                var keySymb = '\0';
+                keySymb = inputsProvider.GetUserAnswer(keySymb);
+                fileResultsOfTest.ShowResultsOfTests(keySymb);
+                keySymb = '\0';
                 Console.WriteLine("Вы хотите пройти тест заново? y/n");
-                if (inputsProvider.GetUserAnswer(keySymd) == 'y')
+                if (inputsProvider.GetUserAnswer(keySymb) == 'y')
                 {
                     Console.Clear();
                     continue;
                 }
                 else
                     break;
-            }
-        }
-        static void CreateFileResultsOfTests(string path)
-        {
-            var head = string.Format("{0, -25} {1, -30} \t{2, -12}", "ФИО:", "Количество правильных ответов:", "Ваш диагноз:");
-            var fileResults = new FileStream(path, FileMode.OpenOrCreate);
-            var resultsOfTests = new StreamWriter(fileResults, Encoding.UTF8); ;
-            resultsOfTests.WriteLine(head);
-            resultsOfTests.Dispose();
-            fileResults.Close();
-        }
-        static void WriteToFileResultsOfTests(string path, string fileInput)
-        {
-            try
-            {
-                using (FileStream fileStream = new FileStream(path, FileMode.Append))
-                {
-                    using (StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.UTF8))
-                    {
-                        streamWriter.WriteLine(fileInput);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
-        static void ShowResultsOfTests(string path, char keySymb)
-        {
-            if (keySymb == 'y')
-            {
-                Console.WriteLine("Результаты тестирования: ");
-                try
-                {
-                    using (StreamReader readerResultsOfTests = new StreamReader(path))
-                    {
-                        Console.WriteLine(readerResultsOfTests.ReadToEnd());
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-
             }
         }
     }
