@@ -71,39 +71,6 @@ namespace GeniyIdiot
             resultsOfTests.Dispose();
             fileResults.Close();
         }
-        
-        static List<Diagnose> GetDiagnose()
-        {
-            var diagnoses = new List<Diagnose>();
-            diagnoses.Add(new Diagnose("Идиот"));
-            diagnoses.Add(new Diagnose("Кретин"));
-            diagnoses.Add(new Diagnose("Дурак"));
-            diagnoses.Add(new Diagnose("Нормальный"));
-            diagnoses.Add(new Diagnose("Талант"));
-            diagnoses.Add(new Diagnose("Гений"));
-            return diagnoses;
-        }
-        
-        //static string ReturnDiagnose(List<Diagnose> diagnoses, int result)
-        //{
-        //    return diagnoses[result].ShowDiagnose();
-        //}
-        //static int GetNumberOfDiagnose(int countRigthAnswers, int numberOfQuetions, int numberOfDiagnoses)
-        //{
-        //    var result = 0;
-        //    if (countRigthAnswers == 0)
-        //        return 0;
-        //    else
-        //    {
-        //        var rate = (double)numberOfQuetions / numberOfDiagnoses;
-        //        for (var i = numberOfDiagnoses; i > 0; i--)
-        //        {
-        //            if (countRigthAnswers <= (rate * i) && countRigthAnswers > (rate * (i - 1)))
-        //                result = i - 1;
-        //        }
-        //    }
-        //    return result;
-        //}
         static void WriteToFileResultsOfTests(string path, string fileInput)
         {
             try
